@@ -3,17 +3,16 @@ import random
 import numpy as np
 from variables import *
 class Tablero:
-    def __init__(self, nombre_usuario, tamano,flota_barcos,tablero_sin_barcos,tablero):
-        self.id_usuario = nombre_usuario, 
-        self.tamano = tamano
-        self.barcos = flota_barcos,
-        self.tablero_sin_barcos = tablero_sin_barcos
-        self.tablero = tablero #máquina + nuestros disparos
+    def __init__(self, nombre_usuario):
+        self.id_usuario = nombre_usuario,
+        #self.tamano = np.full(10,10)
+        self.barcos = flota_barcos
+        self.tablero_sin_barcos = np.full((10,10)," ") 
+        self.tablero_flota = np.full((10,10)," ")  #máquina + nuestros disparos
 
-
-    def crear_tablero(filas,columnas,relleno = " "):
+    def crear_tablero(relleno = " "):
     # genero tablero
-        return np.full((filas,columnas),relleno) 
+        return np.full((10,10),relleno) 
     
     def posicionar_barco(tablero, coordenada_inicial, coordenada_final, relleno = "O"):
     # posiciono los barcos en el tablero
@@ -37,11 +36,11 @@ class Tablero:
                     tablero_resultante[i,j] = relleno
         return (tablero_resultante, "Posicionado")
 
-    def posicionar_barco_aleatorio(flota_barcos):
-        for barco, eslora in flota_barcos.items():
+    def posicionar_barco_aleatorio(self):
+        for barco, eslora in self.barcos[0].items():
     # Generar coordenada inicial aleatoria randint(0, 9)
-            fila_inicial = random.randint(0, tablero.shape[0] - 1)
-            columna_inicial = random.randint(0, tablero.shape[1] - 1)
+            fila_inicial = random.randint(0, self.tablero_flota.shape[0] - 1)
+            columna_inicial = random.randint(0, self.tablero_flota.shape[1] - 1)
             orientacion = random.choice(['N', 'E', 'S', 'O'])
     # Calcular coordenada final según orientación
             if orientacion == 'N':
@@ -58,7 +57,7 @@ class Tablero:
                 columna_final = columna_inicial - (eslora - 1)
     
             print("Posicionando en: " + str((fila_inicial, columna_inicial)) + ", " + str((fila_final, columna_final)) + " orientacion " + orientacion)
-            return Tablero.posicionar_barco_con_orientacion(tablero, (fila_inicial, columna_inicial), (fila_final, columna_final))
+            return Tablero.posicionar_barco_con_orientacion(self.tablero_flota, (fila_inicial, columna_inicial), (fila_final, columna_final))
     
     def posicionar_barco_con_orientacion(tablero, coordenada_inicial, coordenada_final, relleno = "O"):
     # posiciono los barcos en el tablero en coordenada_inicial y coordenada_final ambas incluídas con orientacion
