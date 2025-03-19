@@ -8,11 +8,11 @@ class Tablero:
         self.id_usuario = nombre_usuario,
         #self.tamano = np.full(10,10)
         self.barcos = flota_barcos
-        self.tablero_sin_barcos = np.full((10,10)," ") 
-        self.tablero_flota = np.full((10,10)," ")  #máquina + nuestros disparos
+        self.tablero_sin_barcos = np.full((10,10),"O") 
+        self.tablero_flota = np.full((10,10),"")  #máquina + nuestros disparos
         self.contador_vidas = 20
 
-    def crear_tablero(relleno = " "):
+    def crear_tablero(relleno = ""):
     # genero tablero
         return np.full((10,10),relleno) 
     
@@ -110,13 +110,12 @@ class Tablero:
 
     """
 
-    def dispara(self, tablero):
+    def dispara_random_facil(self, tablero):
         coor_1 = np.random.randint(0,10)   # establecemos  el primer elemento de mi coordenada aleatoria, elemento fila 
         coor_2 = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
         disparo = (coor_1, coor_2) 
         
-        agua = np.array(tablero.tablero_flota[disparo] == " ")
-        #tocado = np.array(tablero[disparo] == "O")
+        agua = np.array(tablero.tablero_flota[disparo] == "")
 
         if agua == True:
             tablero.tablero_flota[disparo] = "-"
@@ -135,7 +134,7 @@ class Tablero:
     MODO DIFICL ()
     '''
 
-    def dispara_difil(self, tablero):
+    def dispara_random_difil(self, tablero):
         
         intentos = 0
         while intentos <=2:
@@ -143,10 +142,9 @@ class Tablero:
             coor_2 = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
             disparo = (coor_1, coor_2) 
             
-            agua = tablero[disparo] == " "
-            tocado = tablero[disparo] == "O"
+            agua = tablero[disparo] == ""
         
-            if agua:
+            if agua == True:
                 tablero[disparo] = "-"
                 print(f"¡Agua! Has disparado a la coordenada {disparo}.")
                 intentos +=1
@@ -165,7 +163,7 @@ class Tablero:
 
     MODO FACIL
     '''
-    def disparar_barco(self, tablero):
+    def disparar_barco_facil(self, tablero):
         while True:
             cordenada1 = input("Dame las cordenadas de disparar ")
             try:
@@ -180,7 +178,7 @@ class Tablero:
                     print("Intenta en otro sitio")
                 
                 else:
-                    tablero[sitio] == "-"
+                    tablero[sitio] = "-"
                     print("Disparo en agua")
                     break
             except NameError:
@@ -193,7 +191,7 @@ DISPARO MANUAL PARA USUARIO, SI HAS DISPARADO ANTES TE VUELVE A PREGUNTAR
 
 MODO DIFICL
 '''
-    def disparar_barco(self, tablero):
+    def disparar_barco_dificil(self, tablero):
         intentos = 0
         while intentos <=2:
             cordenada1 = input("Dame las cordenadas de disparar ")
@@ -209,10 +207,10 @@ MODO DIFICL
                     print("Intenta en otro sitio")
                 
                 else:
-                    tablero[sitio] == "-"
+                    tablero[sitio] = "-"
                     print("Disparo en agua")
                     intentos +=1
-                    if intentos ==2:
+                    if intentos == 2:
                         print("has alcanzado el numero maximo de intentos")
                         break
             except NameError:
