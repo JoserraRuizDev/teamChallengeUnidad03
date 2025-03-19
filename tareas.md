@@ -17,3 +17,5 @@ crea_barcos --> BARCO
 #TO DO: montar el juego en el script main.py
 #TO DO: clases.py - lineas 95 a 102 --> Hay que establecer que el atributo tablero_flota se actualice con los barcos de la flota
 #TO DO: Revisar los métodos de disparos manuales
+#TO DO: clases.py - linea 127 --> Elaborar mensaje de derrota
+#TO DO: actualizar los métodos de disparos para añadir el contador de vidas

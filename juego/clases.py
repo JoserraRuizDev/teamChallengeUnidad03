@@ -2,6 +2,7 @@
 import random
 import numpy as np
 from variables import *
+from funciones import *
 class Tablero:
     def __init__(self, nombre_usuario):
         self.id_usuario = nombre_usuario,
@@ -9,6 +10,7 @@ class Tablero:
         self.barcos = flota_barcos
         self.tablero_sin_barcos = np.full((10,10)," ") 
         self.tablero_flota = np.full((10,10)," ")  #máquina + nuestros disparos
+        self.contador_vidas = 20
 
     def crear_tablero(relleno = " "):
     # genero tablero
@@ -113,17 +115,19 @@ class Tablero:
         coor_2 = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
         disparo = (coor_1, coor_2) 
         
-        agua = np.array(tablero[disparo] == " ")
+        agua = np.array(tablero.tablero_flota[disparo] == " ")
         #tocado = np.array(tablero[disparo] == "O")
 
         if agua == True:
-            tablero[disparo] = "-"
+            tablero.tablero_flota[disparo] = "-"
             print(f"¡Agua! Has disparado a la coordenada {disparo}.")
         else:
-            tablero[disparo] = "X"
+            tablero.tablero_flota[disparo] = "X"
+            if chequeo_vidas(tablero) == 0:
+                return "HAS PERDIDO"
             print(f"¡Tocado! Has acertado disparando a la coordenada{disparo}.")
 
-        return tablero
+        return (tablero.tablero_flota, tablero.contador_vidas)
     
     '''
     FUNCION DISPARAR DE MODO ALEATORIO:

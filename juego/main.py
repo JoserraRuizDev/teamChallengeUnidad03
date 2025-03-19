@@ -9,8 +9,7 @@ nombre_usuario = "Pepe" #input("Escriba su nombre de usuario")
 tablero_jugador = Tablero(nombre_usuario)
 tablero_cpu = Tablero(NOMBRE_USUARIO_CPU)
 
-print(tablero_jugador.disparar_barco(tablero_cpu.tablero_flota))
-print(tablero_cpu.tablero_flota)
+print(tablero_jugador.dispara(tablero_cpu))
 
 #tablero_jugador.posicionar_barco_aleatorio()
 #tablero_cpu.posicionar_barco_aleatorio()
