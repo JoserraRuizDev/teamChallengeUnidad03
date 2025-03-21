@@ -158,6 +158,7 @@ class Tablero:
                     break
             elif tablero.tablero_flota[disparo] == "O":
                 tablero.tablero_flota[disparo] = "X"
+                tablero.contador_vidas -= 1
                 print(f"¡Tocado! Has acertado disparando a la coordenada{disparo}.")
                 print(f"Te quedan {chequeo_vidas(tablero)}.")
                 break #SI LE DAMOS AL BARCO SE PARA TMB
@@ -178,6 +179,7 @@ class Tablero:
         
                 if tablero.tablero_flota[sitio] == "O":
                     tablero.tablero_flota[sitio] = "X"
+                    tablero.contador_vidas -= 1
                     print("Has disparado a un barco")
                     print(f"Te quedan {chequeo_vidas(tablero)}.")
                     break
@@ -208,6 +210,7 @@ MODO DIFICL
         
                 if tablero.tablero_flota[sitio] == "O":
                     tablero.tablero_flota[sitio] = "X"
+                    tablero.contador_vidas -= 1
                     print("Has disparado a un barco")
                     print(f"Te quedan {chequeo_vidas(tablero)}.")
                     break

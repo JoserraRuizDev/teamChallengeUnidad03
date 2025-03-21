@@ -27,10 +27,6 @@ tablero_jugador.crear_tablero()
 tablero_jugador.posicionar_barcos(flota_barcos)
 tablero_cpu.posicionar_barcos(flota_barcos)
 
-
-
-
-
 tablero_jugador.dispara_random_facil(tablero_cpu)
 tablero_jugador.dispara_random_facil(tablero_cpu)
 

@@ -15,14 +15,7 @@ dispara_barco (modo aleatorio y manual) --> TABLERO (Implementar que al acertar 
 crea_barcos --> BARCO
 
 #TO DO: montar el juego en el script main.py
-#TO DO: clases.py - lineas 95 a 102 --> Hay que establecer que el atributo tablero_flota se actualice con los barcos de la flota. HECHO, YA FUNCIONA CORRECTAMENTE
-
 #TO DO: clases.py - linea 127 --> Elaborar mensaje de derrota
-#TO DO: actualizar los métodos de disparos para añadir el contador de vidas
-
-
-
-
-
-
-#SOLUCIONADO: Revisar los métodos de disparos manuales y automaticos
+#TO DO: añadir bucle para poder reintentar si disparamos a un lugar al que ya hayamos disparado previamente
+#TO DO: añadir condicion al disparar para introducir la palabra ABANDONAR y salir del juego
+#TO DO: enseñar el tablero sin los barcos
