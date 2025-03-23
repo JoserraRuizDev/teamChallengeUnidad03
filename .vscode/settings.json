@@ -1,0 +1,7 @@
+{
+    "python.testing.pytestArgs": [
+        "juego 2.0"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
