@@ -217,7 +217,7 @@ class Tablero:
     
 
     def tablero_disparos_usuario(self, tablero):
-        x = np.where(tablero.tablero_sin_barcos == 'O', ' ', tablero.tablero_sin_barcos) #Reemplaza los barcos por espacios vacios
+        x = np.where(tablero.tablero_sin_barcos == 'O', ' ', tablero.tablero_sin_barcos)
         print(x, 'tablero referencia')
 
 
