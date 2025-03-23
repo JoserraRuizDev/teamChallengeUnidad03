@@ -2,8 +2,8 @@ from clases import *
 from funciones import *
 from variables import *
 
-#print("Bienvenidos a Hundir la Flota")
-#print(REGLAS_DEL_JUEGO)
+print("Bienvenidos a Hundir la Flota")
+print(REGLAS_DEL_JUEGO)
 
 nombre_usuario = "Pepe" #input("Escriba su nombre de usuario")
 tablero_jugador = Tablero(nombre_usuario)
@@ -27,7 +27,7 @@ tablero_jugador.crear_tablero()
 tablero_jugador.posicionar_barcos(flota_barcos)
 tablero_cpu.posicionar_barcos(flota_barcos)
 
-tablero_jugador.dispara_random_facil(tablero_cpu)
+tablero_jugador.disparar_barco_facil(tablero_cpu)
 tablero_jugador.dispara_random_facil(tablero_cpu)
 
 tablero_cpu.dispara_random_facil(tablero_jugador)
