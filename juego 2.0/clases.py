@@ -111,26 +111,25 @@ class Tablero:
     """
 
     def dispara_random_facil(self, tablero):
-        coor_1 = np.random.randint(0,10)   # establecemos  el primer elemento de mi coordenada aleatoria, elemento fila 
-        coor_2 = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
-        disparo = (coor_1, coor_2) 
-        
-        tocado = np.array(tablero.tablero_flota[disparo] == "O")
-        agua = np.array(tablero.tablero_flota[disparo] == " ")
-
-        if tocado == True:
-            tablero.tablero_flota[disparo] = "X"
-            tablero.contador_vidas -= 1
-            chequeo_vidas(tablero)
-            print(f"¡Tocado! Has acertado disparando a la coordenada{disparo}.")
-            print(f"Te quedan {chequeo_vidas(tablero)}.")
-        
-        elif agua == True:
-            tablero.tablero_flota[disparo] = "-"
-            print(f"¡Agua! Has disparado a la coordenada {disparo}.")
-
-        else:
-            return "Ya has disparado en esta coordenada, dispara de nuevo"
+        intentos = 1
+        while intentos > 0:
+            intentos -= 1
+            fila = np.random.randint(0,10)   # establecemos  el primer elemento de mi coordenada aleatoria, elemento fila 
+            columna = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
+            sitio = (fila, columna)
+            if tablero.tablero_flota[sitio] == "O":
+                tablero.tablero_flota[sitio] = "X"
+                tablero.contador_vidas -= 1
+                chequeo_vidas(tablero)
+                print(f"¡Tocado! Has acertado disparando a la coordenada {sitio}.")
+                print(f"Le quedan {chequeo_vidas(tablero)} vidas a su oponente.")
+                intentos += 1
+            elif tablero.tablero_flota[sitio] == "X":
+                print("Ya has disparado en esta coordenada, dispara de nuevo")
+                intentos += 1
+            else:
+                tablero.tablero_flota[sitio] = "-"
+                print(f"¡Agua! Has disparado a la coordenada {sitio}.")
         
         tablero.tablero_disparos_maquina(tablero)
         return (tablero.tablero_flota, tablero.contador_vidas)
@@ -155,29 +154,30 @@ class Tablero:
     '''
 
     def dispara_random_dificil(self, tablero):
-        
-        intentos = 0
-        while intentos <=2:
+        intentos = 2
+        disparos_agua = 0
+        while intentos > 0 and disparos_agua < 2:
+            intentos -= 1
             coor_1 = np.random.randint(0,10)   # establecemos  el primer elemento de mi coordenada aleatoria, elemento fila 
             coor_2 = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
-            disparo = (coor_1, coor_2) 
-            
-            agua = np.array(tablero.tablero_flota[disparo] == " ")
-        
-            
-            if agua == True:
-                tablero.tablero_flota[disparo] = "-"
-                print(f"¡Agua! Has disparado a la coordenada {disparo}.")
-                intentos +=1
-                if intentos == 2: #SI LLEGA A DOS INTENTOS SE PARA
-                    print("Has alcanzado el número máximo de intentos")
-                    break
-            elif tablero.tablero_flota[disparo] == "O":
-                tablero.tablero_flota[disparo] = "X"
+            sitio = (coor_1, coor_2) 
+            if tablero.tablero_flota[sitio] == "O":
+                tablero.tablero_flota[sitio] = "X"
                 tablero.contador_vidas -= 1
-                print(f"¡Tocado! Has acertado disparando a la coordenada{disparo}.")
-                print(f"Te quedan {chequeo_vidas(tablero)}.")
-                break #SI LE DAMOS AL BARCO SE PARA TMB      
+                print("Has disparado a un barco")
+                print(f"Le quedan {chequeo_vidas(tablero)} vidas a su oponente.")
+                intentos += 1
+            elif tablero.tablero_flota[sitio] == "X":
+                print("Intenta en otro sitio")
+                intentos += 1
+            else:
+                tablero.tablero_flota[sitio] = "-"
+                print("Disparo en agua")
+                intentos +=1
+                disparos_agua += 1
+                if disparos_agua == 2:
+                    print("has alcanzado el numero maximo de intentos")   
+                    break 
             tablero.tablero_disparos_maquina(tablero)          
         return (tablero.tablero_flota, tablero.contador_vidas)
     
@@ -187,13 +187,15 @@ class Tablero:
     MODO FACIL
     '''
     def disparar_barco_facil(self, tablero):
-        while True:
+        disparos = 1
+        while disparos > 0:
+            disparos -= 1
             coordenada1 = input("Dame las cordenadas de disparar ")
             if coordenada1 == "ABANDONAR":
                 abandonar_partida(self, tablero)
-                return "ABANDONAR"
-            else:
-                try:
+                return "ABANDONAR"                                              #Para mi el try/except es necesario por si el usuario introduce mal el input
+            else:                                                               #Devolvería un error y no se rompería, dijeron que si tenía esos detalles se valoraría mas
+                try:                                                            #Lo miramos el Lunes
                     x,y=[int(n) for n in coordenada1.split(",")]
                     sitio = x,y
             
@@ -202,10 +204,10 @@ class Tablero:
                         tablero.contador_vidas -= 1
                         print("Has disparado a un barco en la coordenada {sitio}")
                         print(f"Te quedan {chequeo_vidas(tablero)}.")
-                        break
+                        disparos += 1
                     elif tablero.tablero_flota[sitio] == "X":
                         print("Intenta en otro sitio")
-                    
+                        disparos += 1
                     else:
                         tablero.tablero_flota[sitio] = "-"
                         print("Disparo en agua")
@@ -228,8 +230,10 @@ class Tablero:
     MODO DIFICL
     '''
     def disparar_barco_dificil(self, tablero):
-        intentos = 0
-        while intentos <=2:
+        intentos = 2
+        disparos_agua = 0
+        while intentos > 0 and disparos_agua < 2:
+            intentos -= 1
             coordenada1 = input("Dame las cordenadas de disparar ")
             coordenada1 = input("Dame las cordenadas de disparar ")
             if coordenada1 == "ABANDONAR":
@@ -245,14 +249,15 @@ class Tablero:
                         tablero.contador_vidas -= 1
                         print("Has disparado a un barco en la coordenada {sitio}")
                         print(f"Te quedan {chequeo_vidas(tablero)}.")
-                        break
+                        intentos += 1
                     elif tablero.tablero_flota[sitio] == "X":
                         print("Intenta en otro sitio")
-                    
+                        intentos += 1
                     else:
                         tablero.tablero_flota[sitio] = "-"
                         print("Disparo en agua")
                         intentos +=1
+                        disparos_agua += 1
                         if intentos == 2:
                             print("has alcanzado el numero maximo de intentos")
                             break
