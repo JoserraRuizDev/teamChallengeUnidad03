@@ -21,11 +21,11 @@ tablero_cpu = Tablero(NOMBRE_USUARIO_CPU)
 #tablero_cpu.posicionar_barco_aleatorio()
 
 #print(tablero_jugador.tablero_flota)
-tablero_cpu.crear_tablero()
-tablero_jugador.crear_tablero()
+#tablero_cpu.crear_tablero()
+#tablero_jugador.crear_tablero()
 
-tablero_jugador.posicionar_barcos(flota_barcos)
-tablero_cpu.posicionar_barcos(flota_barcos)
+#tablero_jugador.posicionar_barcos(flota_barcos)
+#tablero_cpu.posicionar_barcos(flota_barcos)
 
 tablero_jugador.disparar_barco_facil(tablero_cpu)
 tablero_jugador.dispara_random_facil(tablero_cpu)

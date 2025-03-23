@@ -14,7 +14,7 @@ class Tablero:
         self.contador_vidas = 20
 
     @staticmethod
-    def crear_tablero(relleno = " "):
+    def crear_tablero(relleno = "O"):
         # genero tablero
         return np.full((10,10), relleno)
 
@@ -131,8 +131,23 @@ class Tablero:
 
         else:
             return "Ya has disparado en esta coordenada, dispara de nuevo"
+        
+        tablero.tablero_disparos_maquina(tablero)
         return (tablero.tablero_flota, tablero.contador_vidas)
     
+
+
+
+
+    def tablero_disparos_maquina(self, tablero):
+        x = np.where(tablero.tablero_flota == 'O', ' ', tablero.tablero_flota) #Reemplaza los barcos por espacios vacios
+        print(x, 'tablero referencia')
+
+
+
+
+
+
     '''
     FUNCION DISPARAR DE MODO ALEATORIO:
 
@@ -162,7 +177,8 @@ class Tablero:
                 tablero.contador_vidas -= 1
                 print(f"¡Tocado! Has acertado disparando a la coordenada{disparo}.")
                 print(f"Te quedan {chequeo_vidas(tablero)}.")
-                break #SI LE DAMOS AL BARCO SE PARA TMB                
+                break #SI LE DAMOS AL BARCO SE PARA TMB      
+            tablero.tablero_disparos_maquina(tablero)          
         return (tablero.tablero_flota, tablero.contador_vidas)
     
     '''
@@ -184,7 +200,7 @@ class Tablero:
                     if tablero.tablero_flota[sitio] == "O":
                         tablero.tablero_flota[sitio] = "X"
                         tablero.contador_vidas -= 1
-                        print("Has disparado a un barco")
+                        print("Has disparado a un barco en la coordenada {sitio}")
                         print(f"Te quedan {chequeo_vidas(tablero)}.")
                         break
                     elif tablero.tablero_flota[sitio] == "X":
@@ -196,9 +212,16 @@ class Tablero:
                         break
                 except NameError:
                     None
-
-        return tablero.tablero_flota
+            tablero.tablero_disparos_usuario(tablero)
+        return (tablero.tablero_flota, tablero.contador_vidas)
     
+
+    def tablero_disparos_usuario(self, tablero):
+        x = np.where(tablero.tablero_sin_barcos == 'O', ' ', tablero.tablero_sin_barcos) #Reemplaza los barcos por espacios vacios
+        print(x, 'tablero referencia')
+
+
+
     '''
     DISPARO MANUAL PARA USUARIO, SI HAS DISPARADO ANTES TE VUELVE A PREGUNTAR
 
@@ -220,7 +243,7 @@ class Tablero:
                     if tablero.tablero_flota[sitio] == "O":
                         tablero.tablero_flota[sitio] = "X"
                         tablero.contador_vidas -= 1
-                        print("Has disparado a un barco")
+                        print("Has disparado a un barco en la coordenada {sitio}")
                         print(f"Te quedan {chequeo_vidas(tablero)}.")
                         break
                     elif tablero.tablero_flota[sitio] == "X":
@@ -235,5 +258,5 @@ class Tablero:
                             break
                 except NameError:
                     None
-
-        return tablero
+                    tablero.tablero_disparos_usuario(tablero)
+        return (tablero.tablero_flota, tablero.contador_vidas)
