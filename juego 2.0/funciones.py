@@ -23,15 +23,14 @@ def reiniciar_partida(tablero):
     tablero.contador_vidas = 20
     return tablero.tablero_flota ## + mostrar de nuevo mensaje de bienvenida en pantalla
 
-def abandonar_partida(tablero):
+def abandonar_partida(tablero_jugador, tablero_cpu):
     confirmacion = input("¿Estás seguro de que quieres salir del juego? Contesta con YES o NO:")
     if confirmacion.upper() == "YES":
-        no_agua = np.array(tablero.tablero_flota != " ")
-        tablero.tablero_flota[no_agua] = " "
-        tablero.contador_vidas = 20
-        return "¡Hasta pronto!"
+        reiniciar_partida(tablero_jugador)
+        reiniciar_partida(tablero_cpu)
+        print("¡Hasta pronto!")
     else: 
-        return "Continua jugando."
+        print("Continua jugando.")
     
 def dame_coordenadas():
     coor_1 = np.random.randint(0,10)   # establecemos  el primer elemento de mi coordenada aleatoria, elemento fila 

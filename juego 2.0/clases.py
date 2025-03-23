@@ -149,6 +149,7 @@ class Tablero:
             
             agua = np.array(tablero.tablero_flota[disparo] == " ")
         
+            
             if agua == True:
                 tablero.tablero_flota[disparo] = "-"
                 print(f"¡Agua! Has disparado a la coordenada {disparo}.")
@@ -161,8 +162,7 @@ class Tablero:
                 tablero.contador_vidas -= 1
                 print(f"¡Tocado! Has acertado disparando a la coordenada{disparo}.")
                 print(f"Te quedan {chequeo_vidas(tablero)}.")
-                break #SI LE DAMOS AL BARCO SE PARA TMB
-                
+                break #SI LE DAMOS AL BARCO SE PARA TMB                
         return (tablero.tablero_flota, tablero.contador_vidas)
     
     '''
@@ -173,58 +173,67 @@ class Tablero:
     def disparar_barco_facil(self, tablero):
         while True:
             coordenada1 = input("Dame las cordenadas de disparar ")
-            try:
-                x,y=[int(n) for n in coordenada1.split(",")]
-                sitio = x,y
-        
-                if tablero.tablero_flota[sitio] == "O":
-                    tablero.tablero_flota[sitio] = "X"
-                    tablero.contador_vidas -= 1
-                    print("Has disparado a un barco")
-                    print(f"Te quedan {chequeo_vidas(tablero)}.")
-                    break
-                elif tablero.tablero_flota[sitio] == "X":
-                    print("Intenta en otro sitio")
-                
-                else:
-                    tablero.tablero_flota[sitio] = "-"
-                    print("Disparo en agua")
-                    break
-            except NameError:
-                None
+            if coordenada1 == "ABANDONAR":
+                abandonar_partida(self, tablero)
+                return "ABANDONAR"
+            else:
+                try:
+                    x,y=[int(n) for n in coordenada1.split(",")]
+                    sitio = x,y
+            
+                    if tablero.tablero_flota[sitio] == "O":
+                        tablero.tablero_flota[sitio] = "X"
+                        tablero.contador_vidas -= 1
+                        print("Has disparado a un barco")
+                        print(f"Te quedan {chequeo_vidas(tablero)}.")
+                        break
+                    elif tablero.tablero_flota[sitio] == "X":
+                        print("Intenta en otro sitio")
+                    
+                    else:
+                        tablero.tablero_flota[sitio] = "-"
+                        print("Disparo en agua")
+                        break
+                except NameError:
+                    None
 
         return tablero.tablero_flota
     
     '''
-DISPARO MANUAL PARA USUARIO, SI HAS DISPARADO ANTES TE VUELVE A PREGUNTAR
+    DISPARO MANUAL PARA USUARIO, SI HAS DISPARADO ANTES TE VUELVE A PREGUNTAR
 
-MODO DIFICL
-'''
+    MODO DIFICL
+    '''
     def disparar_barco_dificil(self, tablero):
         intentos = 0
         while intentos <=2:
             coordenada1 = input("Dame las cordenadas de disparar ")
-            try:
-                x,y=[int(n) for n in coordenada1.split(",")]
-                sitio = x,y
-        
-                if tablero.tablero_flota[sitio] == "O":
-                    tablero.tablero_flota[sitio] = "X"
-                    tablero.contador_vidas -= 1
-                    print("Has disparado a un barco")
-                    print(f"Te quedan {chequeo_vidas(tablero)}.")
-                    break
-                elif tablero.tablero_flota[sitio] == "X":
-                    print("Intenta en otro sitio")
-                
-                else:
-                    tablero.tablero_flota[sitio] = "-"
-                    print("Disparo en agua")
-                    intentos +=1
-                    if intentos == 2:
-                        print("has alcanzado el numero maximo de intentos")
+            coordenada1 = input("Dame las cordenadas de disparar ")
+            if coordenada1 == "ABANDONAR":
+                abandonar_partida(self, tablero)
+                return "ABANDONAR"
+            else:
+                try:
+                    x,y=[int(n) for n in coordenada1.split(",")]
+                    sitio = x,y
+            
+                    if tablero.tablero_flota[sitio] == "O":
+                        tablero.tablero_flota[sitio] = "X"
+                        tablero.contador_vidas -= 1
+                        print("Has disparado a un barco")
+                        print(f"Te quedan {chequeo_vidas(tablero)}.")
                         break
-            except NameError:
-                None
+                    elif tablero.tablero_flota[sitio] == "X":
+                        print("Intenta en otro sitio")
+                    
+                    else:
+                        tablero.tablero_flota[sitio] = "-"
+                        print("Disparo en agua")
+                        intentos +=1
+                        if intentos == 2:
+                            print("has alcanzado el numero maximo de intentos")
+                            break
+                except NameError:
+                    None
 
         return tablero
