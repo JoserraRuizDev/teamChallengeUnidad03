@@ -108,7 +108,7 @@ class Tablero:
 
     NIVEL FACIL
 
-    """
+"""
 
     def dispara_random_facil(self, tablero):
         intentos = 1
@@ -121,20 +121,19 @@ class Tablero:
                 tablero.tablero_flota[sitio] = "X"
                 tablero.contador_vidas -= 1
                 chequeo_vidas(tablero)
-                print(f"¡Tocado! Has acertado disparando a la coordenada {sitio}.")
-                print(f"Le quedan {chequeo_vidas(tablero)} vidas a su oponente.")
+                print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
+                print(f"Le quedan {chequeo_vidas(tablero)} vidas a tu oponente.")
                 intentos += 1
             elif tablero.tablero_flota[sitio] == "X":
-                print("Ya has disparado en esta coordenada, dispara de nuevo")
+                print("Ya has disparado en esta coordenada, dispara de nuevo.")
                 intentos += 1
             else:
                 tablero.tablero_flota[sitio] = "-"
-                print(f"¡Agua! Has disparado a la coordenada {sitio}.")
+                print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
         
         tablero.tablero_disparos_maquina(tablero)
         return (tablero.tablero_flota, tablero.contador_vidas)
     
-
 
 
 
@@ -164,19 +163,19 @@ class Tablero:
             if tablero.tablero_flota[sitio] == "O":
                 tablero.tablero_flota[sitio] = "X"
                 tablero.contador_vidas -= 1
-                print("Has disparado a un barco")
-                print(f"Le quedan {chequeo_vidas(tablero)} vidas a su oponente.")
+                print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
+                print(f"Le quedan {chequeo_vidas(tablero)} vidas a tu oponente.")
                 intentos += 1
             elif tablero.tablero_flota[sitio] == "X":
-                print("Intenta en otro sitio")
+                print("Ya has disparado en esta coordenada, dispara de nuevo.")
                 intentos += 1
             else:
                 tablero.tablero_flota[sitio] = "-"
-                print("Disparo en agua")
+                print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
                 intentos +=1
                 disparos_agua += 1
                 if disparos_agua == 2:
-                    print("has alcanzado el numero maximo de intentos")   
+                    print("¡PIERDES TURNO! Has alcanzado el máximo de intentos.")   
                     break 
             tablero.tablero_disparos_maquina(tablero)          
         return (tablero.tablero_flota, tablero.contador_vidas)
@@ -190,8 +189,8 @@ class Tablero:
         disparos = 1
         while disparos > 0:
             disparos -= 1
-            coordenada1 = input("Dame las cordenadas de disparar ")
-            if coordenada1 == "ABANDONAR":
+            coordenada1 = input("Introduce las coordenadas de tu disparo:")
+            if coordenada1.upper() == "ABANDONAR":
                 abandonar_partida(self, tablero)
                 return "ABANDONAR"                                              #Para mi el try/except es necesario por si el usuario introduce mal el input
             else:                                                               #Devolvería un error y no se rompería, dijeron que si tenía esos detalles se valoraría mas
@@ -202,15 +201,15 @@ class Tablero:
                     if tablero.tablero_flota[sitio] == "O":
                         tablero.tablero_flota[sitio] = "X"
                         tablero.contador_vidas -= 1
-                        print(f"Has disparado a un barco en la coordenada {sitio}")
-                        print(f"Al rival le quedan {chequeo_vidas(tablero)}.")
+                        print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
+                        print(f"Vidas restantes de tu contrincante: {chequeo_vidas(tablero)}.")
                         disparos += 1
                     elif tablero.tablero_flota[sitio] == "X":
-                        print("Intenta en otro sitio")
+                        print("Ya has disparado en esta coordenada, dispara de nuevo.")
                         disparos += 1
                     else:
                         tablero.tablero_flota[sitio] = "-"
-                        print("Disparo en agua")
+                        print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
                         break
                 except IndexError:
                     print(IndexError)
@@ -234,9 +233,8 @@ class Tablero:
         disparos_agua = 0
         while intentos > 0 and disparos_agua < 2:
             intentos -= 1
-            coordenada1 = input("Dame las cordenadas de disparar ")
-            coordenada1 = input("Dame las cordenadas de disparar ")
-            if coordenada1 == "ABANDONAR":
+            coordenada1 = input("Introduce las coordenadas de tu disparo:")
+            if coordenada1.upper() == "ABANDONAR":
                 abandonar_partida(self, tablero)
                 return "ABANDONAR"
             else:
@@ -247,19 +245,19 @@ class Tablero:
                     if tablero.tablero_flota[sitio] == "O":
                         tablero.tablero_flota[sitio] = "X"
                         tablero.contador_vidas -= 1
-                        print("Has disparado a un barco en la coordenada {sitio}")
-                        print(f"Te quedan {chequeo_vidas(tablero)}.")
+                        print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
+                        print(f"Vidas restantes de tu contrincante:{chequeo_vidas(tablero)}.")
                         intentos += 1
                     elif tablero.tablero_flota[sitio] == "X":
-                        print("Intenta en otro sitio")
+                        print("Ya has disparado en esta coordenada, dispara de nuevo.")
                         intentos += 1
                     else:
                         tablero.tablero_flota[sitio] = "-"
-                        print("Disparo en agua")
+                        print(F"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
                         intentos +=1
                         disparos_agua += 1
                         if intentos == 2:
-                            print("has alcanzado el numero maximo de intentos")
+                            print("¡PIERDES TURNO! Has alcanzado el numero maximo de intentos.")
                             break
                 except NameError:
                     None
