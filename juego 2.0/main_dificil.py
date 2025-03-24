@@ -10,15 +10,35 @@ tablero_cpu = Tablero(NOMBRE_USUARIO_CPU)
 tablero_jugador.posicionar_barcos(flota_barcos)
 tablero_cpu.posicionar_barcos(flota_barcos)
 
-while True:
 
-    print(f"Tablero de la CPU")
+while tablero_jugador.contador_vidas > 0 or tablero_cpu.contador_vidas > 0:
+
+# HE MOVIDO ESTOS PRINTS PARA QUE SALGAN DESPUÉS DEL DISPARO EN EL TURNO DEL JUGADOR. SE IMPRIMEN EN EL TURNO DE LA CPU SOLO CUANDO GANA
+    #print(f"Tablero contador de disparos de la CPU")
+    #print(tablero_cpu.tablero_sin_barcos)
+    #print(f"Tablero de {tablero_jugador.id_usuario}")
+    #print(tablero_jugador.tablero_flota)
+    
+    print(f"--> TURNO DE {tablero_jugador.id_usuario}:")
+    tablero_jugador.dispara_random_facil(tablero_cpu)
+
+    print(f"Tablero rival - comprueba tus disparos a la CPU:")
     print(tablero_cpu.tablero_sin_barcos)
     print(f"Tablero de {tablero_jugador.id_usuario}")
     print(tablero_jugador.tablero_flota)
-    
-    tablero_jugador.disparar_barco_facil(tablero_cpu)
-    if not tablero_jugador.partida_activa:
+    if tablero_cpu.contador_vidas == 0:
         break
 
+    print("--> TURNO DE LA CPU:")    
     tablero_cpu.dispara_random_dificil(tablero_jugador)
+    if tablero_jugador.contador_vidas == 0:
+        print(f"Tablero de la CPU:")
+        print(tablero_cpu.tablero_flota)
+        print(f"Tablero de {tablero_jugador.id_usuario}")
+        print(tablero_jugador.tablero_flota)
+        break
+
+if tablero_cpu.contador_vidas == 0:
+    print(f"Enhorabuena, {tablero_jugador.id_usuario}, has ganado.")
+elif tablero_jugador.contador_vidas == 0:
+    print(f"Lo siento, {tablero_jugador.id_usuario}, has perdido.")
