@@ -20,7 +20,7 @@ while tablero_jugador.contador_vidas > 0 or tablero_cpu.contador_vidas > 0:
     #print(tablero_jugador.tablero_flota)
     
     print(f"--> TURNO DE {tablero_jugador.id_usuario}:")
-    tablero_jugador.dispara_random_facil(tablero_cpu)
+    tablero_jugador.dispara_manual(tablero_cpu)
 
     print(f"Tablero rival - comprueba tus disparos a la CPU:")
     print(tablero_cpu.tablero_sin_barcos)

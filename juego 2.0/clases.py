@@ -177,35 +177,48 @@ class Tablero:
         intentos = 1
         while intentos > 0 and tablero.contador_vidas > 0:
             intentos -= 1
-            coordenada1 = input("Introduce las coordenadas de tu disparo:")
-            if coordenada1.upper() == "ABANDONAR":
-                abandonar_partida(self, tablero)
-                return "ABANDONAR"                                             
-            else:                                                              
-                x,y=[int(n) for n in coordenada1.split(",")]
-                sitio = x-1,y-1
+
+            while True:
+                coordenada1 = input("Introduce las coordenadas de tu disparo, ejemplo: 5,9")
+                if coordenada1.upper() == "ABANDONAR":
+                    abandonar_partida(self, tablero)
+                    return "ABANDONAR"   
+                                                                                 
+                sitio = self.comprobar_coordenadas(coordenada1) 
+                if sitio is not False:                                        # Basicamente si la funcion de abajo no devuelve False, deja de preguntar las coordenadas
+                    break    
         
-                if tablero.tablero_flota[sitio] == "O":
-                    tablero.tablero_flota[sitio] = "X"
-                    tablero.tablero_sin_barcos[sitio] = "X"
-                    tablero.contador_vidas -= 1
-                    print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
-                    print(tablero.tablero_sin_barcos)
-                    print(f"Vidas restantes de tu oponente: {tablero.contador_vidas}.")
-                    intentos += 1
-                elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
-                    print("Ya has disparado en esta coordenada, dispara de nuevo.")
-                    intentos += 1
-                else:
-                    tablero.tablero_flota[sitio] = "-"
-                    tablero.tablero_sin_barcos[sitio] = "-"
-                    print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
-                    break
+            if tablero.tablero_flota[sitio] == "O":
+                tablero.tablero_flota[sitio] = "X"
+                tablero.tablero_sin_barcos[sitio] = "X"
+                tablero.contador_vidas -= 1
+                print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
+                print(tablero.tablero_sin_barcos)
+                print(f"Vidas restantes de tu oponente: {tablero.contador_vidas}.")
+                intentos += 1
+            elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
+                print("Ya has disparado en esta coordenada, dispara de nuevo.")
+                intentos += 1
+            else:
+                tablero.tablero_flota[sitio] = "-"
+                tablero.tablero_sin_barcos[sitio] = "-"
+                print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
+                break
         return (tablero.tablero_sin_barcos, tablero.contador_vidas)
     
 
-    def comprobar_coordenadas(coordenadas):
-        return 1
+    def comprobar_coordenadas(self, coordenadas):
+        try:
+            x,y=[int(n) for n in coordenadas.split(",")]
+            if x >=1 and x <=10 and y >=1 and y <=10:                           #Tiene que detectar que es un numero entre 1 y 10
+                return x-1,y-1
+            else:
+                print('Las coordenadas tiene que ser entre 1 y 10, ambos incluidos')
+                return False
+        except ValueError:
+            print('Las coordenadas están formadas de numeros, separados por una coma, ejemplo: 7,8')
+            return False
+        
 
     '''
     HEMOS QUEDADO EN QUE ESTO NO LO USAMOS, NO LO BORRO DE MOMENTO:
