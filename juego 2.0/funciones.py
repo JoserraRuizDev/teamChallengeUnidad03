@@ -17,17 +17,20 @@ FUNCION QUE PONE EL TABLERO COMO EN EL INICIO
 #def chequeo_vidas(tablero):
 #    return tablero.contador_vidas
 
-def reiniciar_partida(tablero):
+def reiniciar_tablero(tablero):
     no_agua = np.array(tablero.tablero_flota != " ")
     tablero.tablero_flota[no_agua] = " "
     tablero.contador_vidas = 20
     tablero.partida_activa = False
     return tablero.tablero_flota ## + mostrar de nuevo mensaje de bienvenida en pantalla
 
+def reiniciar_partida():
+    return
+
 def abandonar_partida(tablero_jugador, tablero_cpu):
-    confirmacion = input("¿Estás seguro de que quieres salir del juego? Contesta con YES o NO:")
+    confirmacion = input(f"{tablero_jugador.id_usuario}, ¿Estás seguro de que quieres salir del juego? Contesta con YES o NO:")
     if confirmacion.upper() == "YES":
-        reiniciar_partida(tablero_jugador)
+        reiniciar_tablero(tablero_jugador)
         reiniciar_partida(tablero_cpu)
         print("¡Hasta pronto!")
     else: 
@@ -39,14 +42,9 @@ def dame_coordenadas():
     disparo = (coor_1, coor_2)
     return disparo
 
-def chequeo_vidas(tablero):
+def chequeo_vidas(tablero):  ## SEPARAR CUANDO GANA EL JUGADOR DE CUANDO GANA LA CPU
    if tablero.contador_vidas > 0:
       return tablero.contador_vidas
    else:
-      return "No te quedan más vidas, fin del juego!"
-
-
-
-#def reinicio_juego(tablero):
- #   tablero.where(tablero == "X","O", tablero)
-  #  return tablero
+      tablero.partida_activa = False
+      return 0

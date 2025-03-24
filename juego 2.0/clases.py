@@ -112,39 +112,26 @@ class Tablero:
 
     def dispara_random_facil(self, tablero):
         intentos = 1
-        while intentos > 0:
+        while intentos > 0 and tablero.contador_vidas > 0:
             intentos -= 1
             fila = np.random.randint(0,10)   # establecemos  el primer elemento de mi coordenada aleatoria, elemento fila 
             columna = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
             sitio = (fila, columna)
             if tablero.tablero_flota[sitio] == "O":
                 tablero.tablero_flota[sitio] = "X"
+                tablero.tablero_sin_barcos[sitio] = "X"
                 tablero.contador_vidas -= 1
-                chequeo_vidas(tablero)
                 print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
-                print(f"Le quedan {chequeo_vidas(tablero)} vidas a tu oponente.")
+                print(f"Le quedan {tablero.contador_vidas} vidas a tu oponente.")
                 intentos += 1
-            elif tablero.tablero_flota[sitio] == "X":
-                print("Ya has disparado en esta coordenada, dispara de nuevo.")
+            elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
                 intentos += 1
             else:
                 tablero.tablero_flota[sitio] = "-"
+                tablero.tablero_sin_barcos[sitio] = "-"
                 print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
-        
-        tablero.tablero_disparos_maquina(tablero)
+
         return (tablero.tablero_flota, tablero.contador_vidas)
-    
-
-
-
-    def tablero_disparos_maquina(self, tablero):
-        x = np.where(tablero.tablero_flota == 'O', ' ', tablero.tablero_flota) #Reemplaza los barcos por espacios vacios
-        print(x, 'tablero referencia')
-
-
-
-
-
 
     '''
     FUNCION DISPARAR DE MODO ALEATORIO:
@@ -162,11 +149,13 @@ class Tablero:
             sitio = (coor_1, coor_2) 
             if tablero.tablero_flota[sitio] == "O":
                 tablero.tablero_flota[sitio] = "X"
+                tablero.tablero_flota[sitio] = "X"
+                chequeo_vidas(tablero)
                 tablero.contador_vidas -= 1
                 print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
-                print(f"Le quedan {chequeo_vidas(tablero)} vidas a tu oponente.")
+                print(f"Le quedan {tablero.contador_vidas} vidas a tu oponente.")
                 intentos += 1
-            elif tablero.tablero_flota[sitio] == "X":
+            elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
                 print("Ya has disparado en esta coordenada, dispara de nuevo.")
                 intentos += 1
             else:
@@ -186,42 +175,38 @@ class Tablero:
     MODO FACIL
     '''
     def disparar_barco_facil(self, tablero):
-        disparos = 1
-        while disparos > 0:
-            disparos -= 1
+        intentos = 1
+        while intentos > 0 and tablero.contador_vidas > 0:
+            intentos -= 1
             coordenada1 = input("Introduce las coordenadas de tu disparo:")
             if coordenada1.upper() == "ABANDONAR":
                 abandonar_partida(self, tablero)
-                return "ABANDONAR"                                              #Para mi el try/except es necesario por si el usuario introduce mal el input
-            else:                                                               #Devolvería un error y no se rompería, dijeron que si tenía esos detalles se valoraría mas
-                try:                                                            #Lo miramos el Lunes
-                    x,y=[int(n) for n in coordenada1.split(",")]
-                    sitio = x-1,y-1
-            
-                    if tablero.tablero_flota[sitio] == "O":
-                        tablero.tablero_flota[sitio] = "X"
-                        tablero.contador_vidas -= 1
-                        print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
-                        print(f"Vidas restantes de tu contrincante: {chequeo_vidas(tablero)}.")
-                        disparos += 1
-                    elif tablero.tablero_flota[sitio] == "X":
-                        print("Ya has disparado en esta coordenada, dispara de nuevo.")
-                        disparos += 1
-                    else:
-                        tablero.tablero_flota[sitio] = "-"
-                        print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
-                        break
-                except IndexError:
-                    print(IndexError)
-            tablero.tablero_disparos_usuario(tablero)
-        return (tablero.tablero_flota, tablero.contador_vidas)
+                return "ABANDONAR"                                             
+            else:                                                              
+                x,y=[int(n) for n in coordenada1.split(",")]
+                sitio = x-1,y-1
+        
+                if tablero.tablero_flota[sitio] == "O":
+                    tablero.tablero_flota[sitio] = "X"
+                    tablero.tablero_sin_barcos[sitio] = "X"
+                    tablero.contador_vidas -= 1
+                    print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
+                    print(tablero.tablero_sin_barcos)
+                    print(f"Vidas restantes de tu contrincante: {tablero.contador_vidas}.")
+                    intentos += 1
+                elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
+                    print("Ya has disparado en esta coordenada, dispara de nuevo.")
+                    intentos += 1
+                else:
+                    tablero.tablero_flota[sitio] = "-"
+                    tablero.tablero_sin_barcos[sitio] = "-"
+                    print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
+                    break
+        return (tablero.tablero_sin_barcos, tablero.contador_vidas)
     
 
-    def tablero_disparos_usuario(self, tablero):
-        x = np.where(tablero.tablero_sin_barcos == 'O', ' ', tablero.tablero_sin_barcos)
-        print(x, 'tablero referencia')
-
-
+    def comprobar_coordenadas(coordenadas):
+        return 1
 
     '''
     DISPARO MANUAL PARA USUARIO, SI HAS DISPARADO ANTES TE VUELVE A PREGUNTAR
@@ -244,11 +229,12 @@ class Tablero:
             
                     if tablero.tablero_flota[sitio] == "O":
                         tablero.tablero_flota[sitio] = "X"
+                        tablero.tablero_flota[sitio] = "X"
                         tablero.contador_vidas -= 1
                         print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
-                        print(f"Vidas restantes de tu contrincante:{chequeo_vidas(tablero)}.")
+                        print(f"Vidas restantes de tu contrincante:{tablero.contador_vidas}.")
                         intentos += 1
-                    elif tablero.tablero_flota[sitio] == "X":
+                    elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
                         print("Ya has disparado en esta coordenada, dispara de nuevo.")
                         intentos += 1
                     else:
