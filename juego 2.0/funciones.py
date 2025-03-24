@@ -21,6 +21,7 @@ def reiniciar_partida(tablero):
     no_agua = np.array(tablero.tablero_flota != " ")
     tablero.tablero_flota[no_agua] = " "
     tablero.contador_vidas = 20
+    tablero.partida_activa = False
     return tablero.tablero_flota ## + mostrar de nuevo mensaje de bienvenida en pantalla
 
 def abandonar_partida(tablero_jugador, tablero_cpu):

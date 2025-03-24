@@ -1,17 +1,17 @@
 #clases
 import random
 import numpy as np
-from variables import *
+from variables import flota_barcos
 from funciones import *
 
 class Tablero:
     def __init__(self, nombre_usuario):
         self.id_usuario = nombre_usuario
-        #self.tamano = np.full(10,10)
         self.barcos = flota_barcos
         self.tablero_sin_barcos = Tablero.crear_tablero()
         self.tablero_flota = Tablero.crear_tablero() # nuestro tablero
         self.contador_vidas = 20
+        self.partida_activa = True
 
     @staticmethod
     def crear_tablero(relleno = " "):

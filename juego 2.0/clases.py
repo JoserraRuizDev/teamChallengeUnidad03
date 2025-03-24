@@ -7,14 +7,14 @@ from funciones import *
 class Tablero:
     def __init__(self, nombre_usuario):
         self.id_usuario = nombre_usuario
-        #self.tamano = np.full(10,10)
         self.barcos = flota_barcos
         self.tablero_sin_barcos = Tablero.crear_tablero()
         self.tablero_flota = Tablero.crear_tablero() # nuestro tablero
         self.contador_vidas = 20
+        self.partida_activa = True
 
     @staticmethod
-    def crear_tablero(relleno = "O"):
+    def crear_tablero(relleno = " "):
         # genero tablero
         return np.full((10,10), relleno)
 
@@ -197,13 +197,13 @@ class Tablero:
             else:                                                               #Devolvería un error y no se rompería, dijeron que si tenía esos detalles se valoraría mas
                 try:                                                            #Lo miramos el Lunes
                     x,y=[int(n) for n in coordenada1.split(",")]
-                    sitio = x,y
+                    sitio = x-1,y-1
             
                     if tablero.tablero_flota[sitio] == "O":
                         tablero.tablero_flota[sitio] = "X"
                         tablero.contador_vidas -= 1
-                        print("Has disparado a un barco en la coordenada {sitio}")
-                        print(f"Te quedan {chequeo_vidas(tablero)}.")
+                        print(f"Has disparado a un barco en la coordenada {sitio}")
+                        print(f"Al rival le quedan {chequeo_vidas(tablero)}.")
                         disparos += 1
                     elif tablero.tablero_flota[sitio] == "X":
                         print("Intenta en otro sitio")
@@ -212,8 +212,8 @@ class Tablero:
                         tablero.tablero_flota[sitio] = "-"
                         print("Disparo en agua")
                         break
-                except NameError:
-                    None
+                except IndexError:
+                    print(IndexError)
             tablero.tablero_disparos_usuario(tablero)
         return (tablero.tablero_flota, tablero.contador_vidas)
     

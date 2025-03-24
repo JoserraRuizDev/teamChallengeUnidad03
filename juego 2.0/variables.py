@@ -1,5 +1,3 @@
-from clases_trabajando2 import *
-
 flota_barcos = {"barco_1.1": 1, #eslora 1
                "barco_1.2": 1, #eslora 1
                "barco_1.3": 1, #eslora 1
