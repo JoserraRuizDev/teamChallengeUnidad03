@@ -115,11 +115,12 @@ class Tablero:
             fila = np.random.randint(0,10)   # establecemos  el primer elemento de mi coordenada aleatoria, elemento fila 
             columna = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
             sitio = (fila, columna)
+            coordenadas = (fila+1, columna+1)
             if tablero.tablero_flota[sitio] == "O":
                 tablero.tablero_flota[sitio] = "X"
                 tablero.tablero_sin_barcos[sitio] = "X"
                 tablero.contador_vidas -= 1
-                print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
+                print(f"¡TOCADO! Has acertado disparando a la coordenada {coordenadas}.")
                 print(f"Vidas restantes de tu oponente: {tablero.contador_vidas}.")
                 intentos += 1
             elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
@@ -127,7 +128,7 @@ class Tablero:
             else:
                 tablero.tablero_flota[sitio] = "-"
                 tablero.tablero_sin_barcos[sitio] = "-"
-                print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
+                print(f"¡AGUA! Has fallado disparando a la coordenada {coordenadas}.")
 
     '''
     FUNCION DISPARAR DE MODO ALEATORIO:
@@ -140,14 +141,15 @@ class Tablero:
         disparos_agua = 0
         while intentos > 0 and disparos_agua < 2:
             intentos -= 1
-            coor_1 = np.random.randint(0,10)   # establecemos  el primer elemento de mi coordenada aleatoria, elemento fila 
-            coor_2 = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
-            sitio = (coor_1, coor_2) 
+            fila = np.random.randint(0,10)   # establecemos  el primer elemento de mi coordenada aleatoria, elemento fila 
+            columna = np.random.randint(0,10)   # establecemos el segundo elemento de mi coordenada origen aleatoria, elemento columna
+            sitio = (fila, columna)
+            coordenadas = (fila+1, columna+1)
             if tablero.tablero_flota[sitio] == "O":
                 tablero.tablero_flota[sitio] = "X"
                 tablero.tablero_sin_barcos[sitio] = "X"
                 tablero.contador_vidas -= 1
-                print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
+                print(f"¡TOCADO! Has acertado disparando a la coordenada {coordenadas}.")
                 print(f"Vidas restantes de tu oponente: {tablero.contador_vidas}.")
                 intentos += 1
             elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
@@ -155,7 +157,7 @@ class Tablero:
             else:
                 tablero.tablero_flota[sitio] = "-"
                 tablero.tablero_flota[sitio] = "-"
-                print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
+                print(f"¡AGUA! Has fallado disparando a la coordenada {coordenadas}.")
                 intentos +=1
                 disparos_agua += 1
                 if disparos_agua == 2:
@@ -174,13 +176,11 @@ class Tablero:
 
             while True:
                 coordenada = input("Introduce las coordenadas de tu disparo, ejemplo: 5,9\n")
-                if coordenada.upper() == "ABANDONAR":
-                    abandonar_partida(self)
                                                                                  
                 sitio = self.comprobar_coordenadas(coordenada) 
                 if sitio is not False:                                        # Basicamente si la funcion de abajo no devuelve False, deja de preguntar las coordenadas
                     break    
-        
+            
             if tablero.tablero_flota[sitio] == "O":
                 tablero.tablero_flota[sitio] = "X"
                 tablero.tablero_sin_barcos[sitio] = "X"
@@ -201,6 +201,10 @@ class Tablero:
     
 
     def comprobar_coordenadas(self, coordenadas):
+
+        if "ABANDONAR" == coordenadas.upper():
+            abandonar_partida(self)
+        
         try:
             x,y=[int(n) for n in coordenadas.split(",")]
             if x >=1 and x <=10 and y >=1 and y <=10:                           #Tiene que detectar que es un numero entre 1 y 10
