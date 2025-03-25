@@ -25,8 +25,9 @@ class Tablero:
             posicionado = False
             while(not posicionado):
                 _, resultado = self.posicionar_barco_aleatorio(eslora) # va a la funcion posicionar barco aleatorio
-                print(resultado)
+                #print(resultado)
                 posicionado = resultado == "Barco posicionado"
+        print(f"Flota {self.id_usuario} posicionada")
             
     def posicionar_barco_aleatorio(self, eslora):
         # Generar coordenada inicial aleatoria randint(0, 9)
