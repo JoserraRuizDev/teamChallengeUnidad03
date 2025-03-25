@@ -10,5 +10,7 @@ def abandonar_partida(tablero_jugador):
     confirmacion = input(f"{tablero_jugador.id_usuario}, ¿Estás seguro de que quieres salir del juego? Contesta con YES o NO:\n")
     if confirmacion.upper() == "YES":
         tablero_jugador.partida_activa = False
+        print("¡Hasta pronto!")
+        exit()
     else: 
         print("Continua jugando.")
