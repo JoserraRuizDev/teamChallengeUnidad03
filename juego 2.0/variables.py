@@ -43,4 +43,7 @@ Turnos: Si el jugador acierta (toca o hunde), puede seguir disparando hasta fall
 Fin del juego
 El juego termina cuando uno de los jugadores ha hundido todos los barcos del oponente.
 
-El jugador que lo consiga primero es declarado el ganador."""
+El jugador que lo consiga primero es declarado el ganador.
+
+Si deseas abandonar la partida en algún momento, introduce ABANDONAR cuando el juego te pida las coordenadas. ¡CUIDADO! El progreso no se queda guardado.
+"""

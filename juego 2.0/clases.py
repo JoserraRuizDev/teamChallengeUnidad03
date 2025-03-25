@@ -8,8 +8,8 @@ class Tablero:
     def __init__(self, nombre_usuario):
         self.id_usuario = nombre_usuario
         self.barcos = flota_barcos
-        self.tablero_sin_barcos = Tablero.crear_tablero()
-        self.tablero_flota = Tablero.crear_tablero() # nuestro tablero
+        self.tablero_sin_barcos = Tablero.crear_tablero() # tablero sin los barcos
+        self.tablero_flota = Tablero.crear_tablero() # tablero con la flota de barcos señalada
         self.contador_vidas = 20
         self.partida_activa = True
 
@@ -100,16 +100,13 @@ class Tablero:
         self.tablero_flota = tablero_resultante
         
         return (self.tablero_flota, "Barco posicionado")
-
-
-
     
     """"
     FUNCION DISPARAR DE MODO ALEATORIO:
 
     NIVEL FACIL
 
-"""
+    """
 
     def dispara_random_facil(self, tablero):
         intentos = 1
@@ -131,8 +128,6 @@ class Tablero:
                 tablero.tablero_flota[sitio] = "-"
                 tablero.tablero_sin_barcos[sitio] = "-"
                 print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
-
-        # return (tablero.tablero_flota, tablero.contador_vidas)
 
     '''
     FUNCION DISPARAR DE MODO ALEATORIO:
@@ -156,7 +151,6 @@ class Tablero:
                 print(f"Vidas restantes de tu oponente: {tablero.contador_vidas}.")
                 intentos += 1
             elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
-                # print("Ya has disparado en esta coordenada, dispara de nuevo.")
                 intentos += 1
             else:
                 tablero.tablero_flota[sitio] = "-"
@@ -167,7 +161,6 @@ class Tablero:
                 if disparos_agua == 2:
                     print("¡PIERDES TURNO! Has alcanzado el máximo de intentos.")   
                     break           
-        #return (tablero.tablero_flota, tablero.contador_vidas)
     
     '''
     DISPARO MANUAL PARA USUARIO, SI HAS DISPARADO ANTES TE VUELVE A PREGUNTAR
@@ -180,12 +173,11 @@ class Tablero:
             intentos -= 1
 
             while True:
-                coordenada1 = input("Introduce las coordenadas de tu disparo, ejemplo: 5,9")
-                if coordenada1.upper() == "ABANDONAR":
-                    abandonar_partida(self, tablero)
-                    return "ABANDONAR"   
+                coordenada = input("Introduce las coordenadas de tu disparo, ejemplo: 5,9\n")
+                if coordenada.upper() == "ABANDONAR":
+                    abandonar_partida(self)
                                                                                  
-                sitio = self.comprobar_coordenadas(coordenada1) 
+                sitio = self.comprobar_coordenadas(coordenada) 
                 if sitio is not False:                                        # Basicamente si la funcion de abajo no devuelve False, deja de preguntar las coordenadas
                     break    
         
@@ -193,7 +185,7 @@ class Tablero:
                 tablero.tablero_flota[sitio] = "X"
                 tablero.tablero_sin_barcos[sitio] = "X"
                 tablero.contador_vidas -= 1
-                print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
+                print(f"¡TOCADO! Has acertado disparando a la coordenada ({coordenada}).")
                 print(tablero.tablero_sin_barcos)
                 print(f"Vidas restantes de tu oponente: {tablero.contador_vidas}.")
                 intentos += 1
@@ -203,7 +195,7 @@ class Tablero:
             else:
                 tablero.tablero_flota[sitio] = "-"
                 tablero.tablero_sin_barcos[sitio] = "-"
-                print(f"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
+                print(f"¡AGUA! Has fallado disparando a la coordenada ({coordenada}).")
                 break
         return (tablero.tablero_sin_barcos, tablero.contador_vidas)
     
@@ -219,49 +211,3 @@ class Tablero:
         except ValueError:
             print('Las coordenadas están formadas de numeros, separados por una coma, ejemplo: 7,8')
             return False
-        
-
-    '''
-    HEMOS QUEDADO EN QUE ESTO NO LO USAMOS, NO LO BORRO DE MOMENTO:
-
-
-    DISPARO MANUAL PARA USUARIO, SI HAS DISPARADO ANTES TE VUELVE A PREGUNTAR
-
-    MODO DIFICL
-    '''
-    def disparar_barco_dificil(self, tablero):
-        intentos = 2
-        disparos_agua = 0
-        while intentos > 0 and disparos_agua < 2:
-            intentos -= 1
-            coordenada1 = input("Introduce las coordenadas de tu disparo:")
-            if coordenada1.upper() == "ABANDONAR":
-                abandonar_partida(self, tablero)
-                return "ABANDONAR"
-            else:
-                try:
-                    x,y=[int(n) for n in coordenada1.split(",")]
-                    sitio = x,y
-            
-                    if tablero.tablero_flota[sitio] == "O":
-                        tablero.tablero_flota[sitio] = "X"
-                        tablero.tablero_flota[sitio] = "X"
-                        tablero.contador_vidas -= 1
-                        print(f"¡TOCADO! Has acertado disparando a la coordenada {sitio}.")
-                        print(f"Vidas restantes de tu oponente:{tablero.contador_vidas}.")
-                        intentos += 1
-                    elif tablero.tablero_flota[sitio] == "X" or tablero.tablero_flota[sitio] == "-":
-                        print("Ya has disparado en esta coordenada, dispara de nuevo.")
-                        intentos += 1
-                    else:
-                        tablero.tablero_flota[sitio] = "-"
-                        print(F"¡AGUA! Has fallado disparando a la coordenada {sitio}.")
-                        intentos +=1
-                        disparos_agua += 1
-                        if intentos == 2:
-                            print("¡PIERDES TURNO! Has alcanzado el numero maximo de intentos.")
-                            break
-                except NameError:
-                    None
-                    tablero.tablero_disparos_usuario(tablero)
-        return (tablero.tablero_flota, tablero.contador_vidas)
