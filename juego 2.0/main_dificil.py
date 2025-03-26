@@ -13,7 +13,7 @@ tablero_cpu.posicionar_barcos(flota_barcos)
 
 while tablero_jugador.contador_vidas > 0 or tablero_cpu.contador_vidas > 0:
 
-# HE MOVIDO ESTOS PRINTS PARA QUE SALGAN DESPUÉS DEL DISPARO EN EL TURNO DEL JUGADOR. SE IMPRIMEN EN EL TURNO DE LA CPU SOLO CUANDO GANA
+# MOVIDO ESTOS PRINTS PARA QUE SALGAN DESPUÉS DEL DISPARO EN EL TURNO DEL JUGADOR. SE IMPRIMEN EN EL TURNO DE LA CPU SOLO CUANDO GANA
     #print(f"Tablero contador de disparos de la CPU")
     #print(tablero_cpu.tablero_sin_barcos)
     #print(f"Tablero de {tablero_jugador.id_usuario}")
@@ -42,3 +42,4 @@ if tablero_cpu.contador_vidas == 0:
     print(f"Enhorabuena, {tablero_jugador.id_usuario}, has ganado.")
 elif tablero_jugador.contador_vidas == 0:
     print(f"Lo siento, {tablero_jugador.id_usuario}, has perdido.")
+
